@@ -1,0 +1,19 @@
+name: Validate DE commit messages
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out pull request commits
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Validate commit subjects
+        run: python scripts/validate_commit_messages.py --base "${{ github.event.pull_request.base.sha }}" --head "${{ github.event.pull_request.head.sha }}"
