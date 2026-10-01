@@ -1,0 +1,35 @@
+name: Validate DE commit messages
+
+on:
+  workflow_call:
+    inputs:
+      base:
+        required: true
+        type: string
+      head:
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out pull request commits
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.head }}
+          fetch-depth: 0
+          path: target
+      - name: Check out shared policy
+        uses: actions/checkout@v4
+        with:
+          repository: minhazalam/data-engineering-interview-prep
+          ref: main
+          path: policy
+      - name: Validate commit subjects
+        working-directory: target
+        run: python ../policy/scripts/validate_commit_messages.py --base "${{ inputs.base }}" --head "${{ inputs.head }}"
