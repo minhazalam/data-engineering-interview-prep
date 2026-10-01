@@ -28,7 +28,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: minhazalam/data-engineering-interview-prep
-          ref: main
+          ref: 45188e5ba9340c6bcef67f550e5f7926d5e62055
           path: policy
       - name: Validate commit subjects
         working-directory: target
