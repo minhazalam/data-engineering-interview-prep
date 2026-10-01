@@ -8,7 +8,12 @@ permissions:
 
 jobs:
   validate:
-    uses: minhazalam/data-engineering-interview-prep/.github/workflows/validate-de-commit-messages.yml@main
-    with:
-      base: ${{ github.event.pull_request.base.sha }}
-      head: ${{ github.event.pull_request.head.sha }}
+    name: validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out pull request commits
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Validate commit subjects
+        run: python scripts/validate_commit_messages.py --base "${{ github.event.pull_request.base.sha }}" --head "${{ github.event.pull_request.head.sha }}"
