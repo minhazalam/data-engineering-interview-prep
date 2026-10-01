@@ -34,3 +34,5 @@ The hook checks new commit subjects before Git creates a commit. GitHub Actions 
 ## Include a commit in the dashboard
 
 The profile dashboard counts only matching commits authored by `minhazalam` in the explicit list at `minhazalam/minhazalam:de-prep/tracked-repositories.json`. Add a relevant repository there to track it; all other repositories are ignored. The initial list includes the interview-prep repo, the SQL/DSA practice repos, and the selected DE projects. All listed repositories must be public for the no-secret first version; add a narrowly scoped GitHub App or token if you later want private repositories included.
+
+The tracked repositories call the shared validator at a pinned commit. When changing the policy, update that reference in their `.github/workflows/de-commit-policy.yml` files. The Actions check validates pull requests; to enforce it before changes reach the default branch, require the `Validate DE commit messages / validate` check in branch protection or a ruleset and require pull requests. Owners with bypass permission and unprotected branches can still bypass repository rules.
