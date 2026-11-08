@@ -1,0 +1,18 @@
+{
+	"editor.quickSuggestions": false,
+	"editor.suggestOnTriggerCharacters": false,
+	"editor.inlineSuggest.enabled": false,
+	"editor.acceptSuggestionOnEnter": "off",
+	"editor.tabCompletion": "off",
+
+	"editor.formatOnSave": true,
+
+	"[python]": {
+		"editor.defaultFormatter": "ms-python.black-formatter",
+		"editor.formatOnSave": true
+	},
+
+	"editor.codeActionsOnSave": {
+		"source.fixAll.ruff": "explicit"
+	}
+}
