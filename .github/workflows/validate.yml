@@ -2,8 +2,7 @@ name: Validate
 
 on:
     pull_request:
-        branches:
-            - main
+        branches: [main]
 
 jobs:
     validate:
@@ -11,24 +10,20 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            - name: Checkout repository
-              uses: actions/checkout@v4
+            - uses: actions/checkout@v4
 
-            - name: Set up Python
-              uses: actions/setup-python@v5
+            - uses: actions/setup-python@v5
               with:
                   python-version: "3.12"
 
-            - name: Install dependencies
-              run: |
-                  python -m pip install --upgrade pip
-                  python -m pip install pytest black ruff
+            - name: Install tools
+              run: pip install black ruff pytest
 
             - name: Check formatting
               run: black --check dsa/
 
-            - name: Run Ruff
+            - name: Lint
               run: ruff check dsa/
 
-            - name: Run tests
+            - name: Test
               run: python -m pytest dsa/tests/ -v
