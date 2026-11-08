@@ -1,0 +1,19 @@
+.DS_Store
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+
+# IDE
+.idea/
+
+# Local reference material
+books-pdf/
+
+# Environment variables
+.env
+.env.*
+!.env.example
