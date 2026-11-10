@@ -17,3 +17,5 @@ books-pdf/
 .env
 .env.*
 !.env.example
+.ruff_cache
+.vscode
