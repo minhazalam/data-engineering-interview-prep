@@ -83,3 +83,48 @@ def group_employees(employees: list[tuple[str, str]]) -> dict[str, list[str]]:
     for employee, dept in employees:
         res.setdefault(dept, []).append(employee)
     return res
+
+
+employeess = {
+    101: {"name": "Alice", "department": "Engineering", "salary": 120000},
+    102: {"name": "Bob", "department": "Data", "salary": 100000},
+    103: {"name": "Charlie", "department": "Engineering", "salary": 130000},
+}
+
+for details in employeess.values():
+    if details["salary"] > 110000:
+        print(details["name"])
+
+dept_tot = {}
+for details in employeess.values():
+    department = details["department"]
+    salary = details["salary"]
+    dept_tot[department] = dept_tot.get(department, 0) + salary
+print(dept_tot)
+
+
+def highest_paid_by_department(employees):
+    res = {}
+
+    for details in employees.values():
+        department = details["department"]
+        name = [details["name"]]
+        salary = details["salary"]
+        if department in res and salary > res[department]["salary"]:
+            res[department]["salary"] = salary
+            res[department]["name"] = name
+        elif department in res and salary == res[department]["salary"]:
+            # res.get(res[department], []).append(name)
+            res[department]["name"].extend(name)
+        else:
+            res[department] = {"employees": name, "salary": salary}
+
+    return res
+
+
+print(f"Highest paid by department:\n{highest_paid_by_department(employees = {
+    101: {"name": "Alice", "department": "Engineering", "salary": 120000},
+    102: {"name": "Bob", "department": "Data", "salary": 100000},
+    103: {"name": "Charlie", "department": "Engineering", "salary": 130000},
+    104: {"name": "David", "department": "Engineering", "salary": 130000},
+})}")
