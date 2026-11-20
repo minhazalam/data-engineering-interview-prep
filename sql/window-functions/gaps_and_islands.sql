@@ -65,3 +65,37 @@ select user_id,
 from cte_5
 group by user_id, island_id
 ORDER BY user_id, start_date;
+
+
+with cte_1_1 as (select distinct user_id, event_time::date as activity_date
+                 from activity_events),
+     cte_1_2 as (select user_id,
+                        activity_date,
+                        lag(activity_date) over (partition by user_id order by activity_date) as previous_activity_date
+                 from cte_1_1),
+     cte_1_3 as (select user_id,
+                        activity_date,
+                        previous_activity_date,
+                        (activity_date - previous_activity_date) as day_diff
+                 from cte_1_2),
+     cte_1_4 as (select user_id,
+                        activity_date,
+                        previous_activity_date,
+                        day_diff,
+                        case
+                            when previous_activity_date is null then 1
+                            when day_diff > 1 then 1
+                            else 0 end as is_new_island
+                 from cte_1_3),
+     cte_1_5 as (select user_id,
+                        activity_date,
+                        previous_activity_date,
+                        day_diff,
+                        is_new_island,
+                        sum(is_new_island)
+                        over (partition by user_id order by activity_date rows between unbounded preceding and current row) as island_id
+                 from cte_1_4)
+select user_id, min(activity_date) as start_date, max(activity_date) as end_date, count(*) as activity_days
+from cte_1_5
+group by user_id, island_id
+order by user_id, start_date;
